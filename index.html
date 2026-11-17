@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Misi Detektif: Mengungkap Rahasia Artikel Ilmiah Populer</title>
+  <style>
+    :root {
+      --primary: #1e40af;       /* Biru Tua Detektif */
+      --primary-light: #3b82f6; /* Biru Cerah */
+      --secondary: #facc15;     /* Kuning Kaca Pembesar */
+      --accent: #f97316;        /* Oranye Aksen */
+      --bg: #f8fafc;            /* Putih Kebiruan */
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --success: #16a34a;
+      --danger: #dc2626;
+      --radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(30, 64, 175, 0.12);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+    body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+
+    /* HEADER & NAVIGASI */
+    header {
+      background: linear-gradient(135deg, var(--primary), #1d4ed8);
+      color: white;
+      padding: 14px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.05rem; }
+    .brand span.badge { background: var(--secondary); color: var(--primary); padding: 3px 10px; border-radius: 20px; font-size: 0.78rem; }
+    .nav-actions { display: flex; gap: 8px; align-items: center; }
+
+    /* TOMBOL */
+    .btn {
+      border: none;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      text-decoration: none;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #1e3a8a; }
+    .btn-secondary { background: var(--secondary); color: #1e293b; }
+    .btn-secondary:hover { background: #eab308; }
+    .btn-accent { background: var(--accent); color: white; }
+    .btn-accent:hover { background: #ea580c; }
+    .btn-outline { background: white; color: var(--primary); border: 2px solid var(--primary); }
+    .btn-outline:hover { background: #eff6ff; }
+    .btn-sm { padding: 6px 12px; font-size: 0.85rem; border-radius: 8px; }
+
+    /* CONTAINER & SECTIONS */
+    .container { max-width: 960px; margin: 0 auto; padding: 24px 16px 60px; }
+    .screen { display: none; animation: fadeIn 0.4s ease; }
+    .screen.active { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* HALAMAN PEMBUKA */
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+    @media (max-width: 768px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } }
+    .hero-illustration { animation: float 3.5s ease-in-out infinite; max-width: 300px; margin: 0 auto; }
+    .form-group { margin-bottom: 14px; text-align: left; }
+    .form-group label { display: block; font-weight: 700; margin-bottom: 6px; color: var(--primary); }
+    .form-control {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+    .form-control:focus { outline: none; border-color: var(--primary-light); }
+
+    /* KUTIPAN ISLAMI */
+    .islamic-banner {
+      background: linear-gradient(135deg, #fefce8, #fff7ed);
+      border-left: 5px solid var(--accent);
+      padding: 16px 20px;
+      border-radius: 12px;
+      margin: 18px 0;
+    }
+    .islamic-banner strong { color: #9a3412; display: block; margin-bottom: 4px; }
+
+    /* DASHBOARD MENU */
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .menu-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border-top: 6px solid var(--primary);
+      cursor: pointer;
+      transition: transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .menu-card:hover { transform: translateY(-4px); }
+    .menu-card.yellow { border-top-color: var(--secondary); }
+    .menu-card.orange { border-top-color: var(--accent); }
+    .menu-icon { font-size: 2.2rem; margin-bottom: 10px; }
+
+    /* GOOGLE DOCS INTEGRASI BAR */
+    .docs-bar { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+
+    /* TABS MATERI */
+    .tab-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+    .tab-btn {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      background: white;
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--text);
+    }
+    .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+    .example-box {
+      background: #eff6ff;
+      border: 1px dashed var(--primary-light);
+      padding: 14px;
+      border-radius: 12px;
+      margin-top: 12px;
+    }
+
+    /* ARTIKEL ILMIAH */
+    .article-box {
+      background: #fffbeb;
+      border: 2px solid #fde68a;
+      padding: 22px;
+      border-radius: 14px;
+      margin-bottom: 20px;
+    }
+    .article-box h3 { color: var(--primary); font-size: 1.35rem; margin-bottom: 12px; }
+    .article-box p { margin-bottom: 12px; text-align: justify; }
+    .ref-box { font-size: 0.88rem; background: white; padding: 12px; border-radius: 10px; border-left: 4px solid var(--primary); }
+
+    /* GAME INTERAKTIF */
+    .progress-bar { width: 100%; height: 10px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin: 12px 0; }
+    .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s ease; }
+
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      background: white;
+      font-size: 0.98rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-weight: 600;
+    }
+    .option-btn:hover { border-color: var(--primary-light); background: #f8fafc; }
+    .option-btn.correct { background: #dcfce7; border-color: var(--success); color: #14532d; }
+    .option-btn.wrong { background: #fee2e2; border-color: var(--danger); color: #7f1d1d; }
+
+    /* DRAG & DROP / TAP ASSIGN (GAME 2) */
+    .dnd-item {
+      background: #eff6ff;
+      border: 2px solid var(--primary-light);
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      cursor: grab;
+      font-weight: 600;
+    }
+    .dnd-zones { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 14px; }
+    .drop-zone {
+      min-height: 110px;
+      border: 2px dashed #94a3b8;
+      border-radius: 12px;
+      padding: 12px;
+      background: #f8fafc;
+    }
+    .drop-zone h4 { color: var(--primary); margin-bottom: 8px; font-size: 0.95rem; }
+
+    /* TABLE REKAP */
+    table { width: 100%; border-collapse: collapse; margin: 14px 0; }
+    th, td { padding: 12px; border: 1px solid #cbd5e1; text-align: left; }
+    th { background: var(--primary); color: white; }
+
+    /* MODAL PENGATURAN GURU */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-content {
+      background: white;
+      max-width: 560px;
+      width: 100%;
+      border-radius: var(--radius);
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span>🔍 MISI DETEKTIF LITERASI</span>
+    <span class="badge">Bahasa Indonesia VIII</span>
+  </div>
+  <div class="nav-actions">
+    <span id="headerStudentInfo" style="font-size:0.85rem; font-weight:600; display:none;"></span>
+    <button class="btn btn-secondary btn-sm" id="btnHome" style="display:none;" onclick="showScreen('screenMenu')">🏠 Menu Utama</button>
+    <button class="btn btn-outline btn-sm" onclick="openTeacherModal()">⚙️ Pengaturan Guru</button>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ==================== 1. HALAMAN PEMBUKA ==================== -->
+  <section id="screenWelcome" class="screen active">
+    <div class="card">
+      <div class="hero-grid">
+        <div>
+          <span style="background:#dbeafe; color:var(--primary); padding:5px 12px; border-radius:20px; font-weight:700; font-size:0.85rem;">
+            Kurikulum Merdeka • SMP Kelas VIII
+          </span>
+          <h1 style="font-size:1.85rem; color:var(--primary); margin:12px 0;">
+            MISI DETEKTIF: MENGUNGKAP RAHASIA ARTIKEL ILMIAH POPULER
+          </h1>
+          <p style="color:var(--muted); margin-bottom:16px;">
+            Selamat datang, Agen Literasi! Di era banjir informasi, kamu ditugaskan untuk menyelidiki fakta, membongkar opini, dan menguji kebenaran bacaan ilmiah populer.
+          </p>
+
+          <div class="form-group">
+            <label for="inputNama">Nama Lengkap Detektif (Siswa)</label>
+            <input type="text" id="inputNama" class="form-control" placeholder="Contoh: Ahmad Fauzan" />
+          </div>
+          <div class="form-group">
+            <label for="inputKelas">Kelas</label>
+            <input type="text" id="inputKelas" class="form-control" placeholder="Contoh: VIII-A" />
+          </div>
+          <button class="btn btn-accent" style="width:100%; font-size:1.05rem; padding:14px;" onclick="startMission()">
+            🕵️‍♂️ MULAI MISI SEKARANG
+          </button>
+        </div>
+
+        <div class="hero-illustration">
+          <!-- Ilustrasi SVG Detektif Muda Membaca Artikel -->
+          <svg viewBox="0 0 300 300" width="100%" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="150" cy="150" r="135" fill="#eff6ff" />
+            <circle cx="150" cy="150" r="110" fill="#dbeafe" />
+            <!-- Badan / Jas Detektif -->
+            <path d="M85 255 C85 205, 215 205, 215 255 Z" fill="#1e40af" />
+            <polygon points="150,210 130,255 170,255" fill="#facc15" />
+            <!-- Kepala -->
+            <circle cx="150" cy="135" r="52" fill="#fed7aa" />
+            <!-- Mata & Ekspresi -->
+            <circle cx="133" cy="132" r="5" fill="#1e293b" />
+            <circle cx="167" cy="132" r="5" fill="#1e293b" />
+            <path d="M138 152 Q150 164 162 152" stroke="#1e293b" stroke-width="4" fill="none" stroke-linecap="round" />
+            <!-- Topi Detektif -->
+            <ellipse cx="150" cy="92" rx="68" ry="14" fill="#f97316" />
+            <path d="M102 92 C102 52, 198 52, 198 92 Z" fill="#ea580c" />
+            <rect x="102" y="84" width="96" height="8" fill="#facc15" />
+            <!-- Buku / Artikel -->
+            <rect x="85" y="185" width="130" height="75" rx="8" fill="#ffffff" stroke="#1e40af" stroke-width="4" />
+            <line x1="150" y1="185" x2="150" y2="260" stroke="#1e40af" stroke-width="3" />
+            <line x1="100" y1="205" x2="138" y2="205" stroke="#94a3b8" stroke-width="4" />
+            <line x1="100" y1="220" x2="138" y2="220" stroke="#94a3b8" stroke-width="4" />
+            <line x1="162" y1="205" x2="200" y2="205" stroke="#94a3b8" stroke-width="4" />
+            <!-- Kaca Pembesar -->
+            <circle cx="205" cy="165" r="28" fill="rgba(250, 204, 21, 0.35)" stroke="#facc15" stroke-width="7" />
+            <line x1="225" y1="185" x2="252" y2="212" stroke="#1e293b" stroke-width="8" stroke-linecap="round" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="islamic-banner">
+        <strong>🕌 Prinsip Tabayyun Detektif Muslim:</strong>
+        "Seorang muslim yang berilmu tidak mudah percaya pada setiap informasi. Ia berusaha membaca, memahami, dan memeriksa kebenarannya sebelum menyampaikan kepada orang lain."
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 2. MENU UTAMA ==================== -->
+  <section id="screenMenu" class="screen">
+    <div class="card" style="background:linear-gradient(135deg,#eff6ff,#ffffff);">
+      <h2 style="color:var(--primary);">📋 Papan Investigasi Misi</h2>
+      <p>Pilih tahapan misi di bawah ini secara berurutan untuk mengumpulkan poin investigasi dan menuntaskan pembelajaran.</p>
+      
+      <!-- Integrasi Google Docs -->
+      <div class="docs-bar">
+        <a id="linkMateriDocs" href="#" target="_blank" class="btn btn-outline btn-sm" onclick="checkDocLink(event, 'materi')">📘 BUKA MATERI LENGKAP</a>
+        <a id="linkArtikelDocs" href="#" target="_blank" class="btn btn-outline btn-sm" onclick="checkDocLink(event, 'artikel')">📰 BACA ARTIKEL ILMIAH POPULER</a>
+        <a id="linkLkpdDocs" href="#" target="_blank" class="btn btn-outline btn-sm" onclick="checkDocLink(event, 'lkpd')">📝 BUKA LKPD</a>
+        <a id="linkUnduhDocs" href="#" target="_blank" class="btn btn-outline btn-sm" onclick="checkDocLink(event, 'unduh')">⬇️ UNDUH LEMBAR KERJA</a>
+      </div>
+    </div>
+
+    <div class="menu-grid">
+      <div class="menu-card" onclick="showScreen('screenMateri')">
+        <div>
+          <div class="menu-icon">📚</div>
+          <h3>1. Ruang Arsip Materi</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Pelajari pengertian, ciri-ciri, unsur, fakta vs opini, dan kaidah kebahasaan.</p>
+        </div>
+        <span class="btn btn-primary btn-sm" style="margin-top:14px;">Buka Materi →</span>
+      </div>
+
+      <div class="menu-card yellow" onclick="showScreen('screenLab')">
+        <div>
+          <div class="menu-icon">🔬</div>
+          <h3>2. Laboratorium Literasi</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Bedah artikel ilmiah populer tentang manfaat membaca buku bagi otak.</p>
+        </div>
+        <span class="btn btn-secondary btn-sm" style="margin-top:14px;">Mulai Investigasi →</span>
+      </div>
+
+      <div class="menu-card orange" onclick="showScreen('screenGames')">
+        <div>
+          <div class="menu-icon">🎮</div>
+          <h3>3. Arena 5 Game Detektif</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Uji ketangkasanmu dalam 5 misi permainan interaktif berhadiah skor.</p>
+        </div>
+        <span class="btn btn-accent btn-sm" style="margin-top:14px;">Mainkan Game →</span>
+      </div>
+
+      <div class="menu-card" onclick="showScreen('screenKuis')">
+        <div>
+          <div class="menu-icon">📝</div>
+          <h3>4. Ujian Lisensi Detektif (Kuis)</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">15 soal literasi berbasis teks untuk mengukur pemahamanmu (KKTP: <span id="displayKktpMenu">75</span>).</p>
+        </div>
+        <span class="btn btn-primary btn-sm" style="margin-top:14px;">Kerjakan Kuis →</span>
+      </div>
+
+      <div class="menu-card yellow" onclick="showScreen('screenRefleksi')">
+        <div>
+          <div class="menu-icon">💭</div>
+          <h3>5. Jurnal Refleksi</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Tuliskan pemahaman dan sikap tabayyun yang kamu dapatkan hari ini.</p>
+        </div>
+        <span class="btn btn-secondary btn-sm" style="margin-top:14px;">Isi Refleksi →</span>
+      </div>
+
+      <div class="menu-card orange" onclick="openHasilScreen()">
+        <div>
+          <div class="menu-icon">🏆</div>
+          <h3>6. Laporan & Kirim Nilai</h3>
+          <p style="font-size:0.9rem; color:var(--muted);">Lihat rekap seluruh skor dan kirimkan hasil belajarmu langsung ke guru.</p>
+        </div>
+        <span class="btn btn-accent btn-sm" style="margin-top:14px;">Lihat Laporan →</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 3. MENU MATERI ==================== -->
+  <section id="screenMateri" class="screen">
+    <div class="card">
+      <h2 style="color:var(--primary); margin-bottom:12px;">📚 Ruang Arsip Materi: Artikel Ilmiah Populer</h2>
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="switchMateriTab(0, this)">1. Pengertian</button>
+        <button class="tab-btn" onclick="switchMateriTab(1, this)">2. Ciri-ciri</button>
+        <button class="tab-btn" onclick="switchMateriTab(2, this)">3. Unsur-unsur</button>
+        <button class="tab-btn" onclick="switchMateriTab(3, this)">4. Fakta & Opini</button>
+        <button class="tab-btn" onclick="switchMateriTab(4, this)">5. Kebahasaan</button>
+      </div>
+
+      <!-- TAB 1 -->
+      <div class="tab-panel active" id="materiTab0">
+        <h3>1. Pengertian, Tujuan, dan Manfaat</h3>
+        <p style="margin-top:8px;"><strong>Artikel ilmiah populer</strong> adalah tulisan ilmiah yang ditulis dengan gaya bahasa yang ringan, komunikatif, dan mudah dipahami oleh masyarakat umum (bukan hanya kalangan akademisi).</p>
+        <ul style="margin:12px 0 12px 20px;">
+          <li><strong>Tujuan Penulisan:</strong> Menyampaikan hasil penelitian, ilmu pengetahuan, atau temuan ilmiah kepada masyarakat luas agar mudah dicerna dan bermanfaat dalam kehidupan sehari-hari.</li>
+          <li><strong>Manfaat bagi Masyarakat:</strong> Menambah wawasan berbasis bukti, meluruskan hoaks atau mitos, serta membantu masyarakat mengambil keputusan yang tepat (misalnya soal kesehatan dan lingkungan).</li>
+        </ul>
+        <div class="example-box">
+          <strong>💡 Contoh Dekat Siswa:</strong> Artikel berjudul <em>"Mengapa Menatap Layar Gawai Terlalu Lama Menurunkan Konsentrasi Belajar?"</em> menjelaskan penelitian psikologi kognitif dengan bahasa yang akrab bagi pelajar SMP.
+        </div>
+      </div>
+
+      <!-- TAB 2 -->
+      <div class="tab-panel" id="materiTab1">
+        <h3>2. Enam Ciri Utama Artikel Ilmiah Populer</h3>
+        <ol style="margin:12px 0 12px 20px;">
+          <li><strong>Berdasarkan fakta dan data:</strong> Informasi didukung oleh hasil pengamatan, survei, atau riset yang dapat dibuktikan.</li>
+          <li><strong>Menggunakan bahasa yang mudah dipahami:</strong> Menghindari istilah teknis yang rumit tanpa penjelasan.</li>
+          <li><strong>Bersifat objektif dan informatif:</strong> Menyajikan kenyataan apa adanya tanpa memihak secara emosional.</li>
+          <li><strong>Membahas topik berdasarkan kajian ilmiah:</strong> Topik berakar pada ilmu pengetahuan (kesehatan, lingkungan, teknologi, pendidikan).</li>
+          <li><strong>Disusun secara sistematis:</strong> Memiliki alur runtut dari pembuka, isi/pembahasan, hingga penutup.</li>
+          <li><strong>Istilah ilmiah dijelaskan secara sederhana:</strong> Jika ada kata ilmiah (misal: <em>melatonin</em>), penulis langsung menjelaskan artinya (hormon pengatur tidur).</li>
+        </ol>
+        <div class="example-box">
+          <strong>💡 Contoh Topik:</strong> Dampak sampah mikroplastik di laut terhadap rantai makanan ikan yang dikonsumsi manusia.
+        </div>
+      </div>
+
+      <!-- TAB 3 -->
+      <div class="tab-panel" id="materiTab2">
+        <h3>3. Unsur-Unsur Pembangun Artikel</h3>
+        <ul style="margin:12px 0 12px 20px;">
+          <li><strong>Judul:</strong> Singkat, menarik minat pembaca, dan mencerminkan isi tulisan.</li>
+          <li><strong>Pendahuluan (Pembuka):</strong> Pengantar topik, fenomena aktual, atau pertanyaan pemantik rasa ingin tahu.</li>
+          <li><strong>Isi (Pembahasan):</strong> Uraian utama yang memaparkan temuan ilmiah, penjelasan sebab-akibat, serta data pendukung.</li>
+          <li><strong>Penutup:</strong> Simpulan ringkas, pesan moral, atau saran praktis bagi pembaca.</li>
+          <li><strong>Fakta dan Data Pendukung:</strong> Angka statistik, hasil penelitian, atau peristiwa nyata.</li>
+          <li><strong>Opini atau Pandangan Penulis:</strong> Penilaian, saran, atau ajakan penulis yang logis berdasarkan fakta.</li>
+          <li><strong>Sumber Informasi / Referensi:</strong> Rujukan lembaga resmi, jurnal, atau pakar yang dapat diperiksa kebenarannya.</li>
+        </ul>
+      </div>
+
+      <!-- TAB 4 -->
+      <div class="tab-panel" id="materiTab3">
+        <h3>4. Membedakan Fakta dan Opini</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Aspek</th>
+              <th>Fakta</th>
+              <th>Opini</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Pengertian</strong></td>
+              <td>Kenyataan atau peristiwa yang benar-benar terjadi dan dapat dibuktikan kebenarannya.</td>
+              <td>Pendapat, penilaian, dugaan, atau saran dari penulis/narasumber yang bersifat subjektif.</td>
+            </tr>
+            <tr>
+              <td><strong>Ciri Kalimat</strong></td>
+              <td>Memuat data angka, waktu, tempat, atau kutipan hasil riset resmi.</td>
+              <td>Menggunakan kata sifat/penilaian (<em>sebaiknya, sangat penting, menurut saya, diperkirakan</em>).</td>
+            </tr>
+            <tr>
+              <td><strong>Contoh (Tema Tidur)</strong></td>
+              <td>Menurut Kemenkes RI, remaja usia 13–14 tahun membutuhkan waktu tidur 8–10 jam per hari.</td>
+              <td>Pelajar SMP sebaiknya mengurangi bermain gim pada malam hari agar lebih segar saat upacara bendera.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="islamic-banner">
+          <strong>⚖️ Nilai Amanah & Kejujuran:</strong> Seorang penulis yang amanah tidak mencampuradukkan dugaan pribadinya seolah-olah sebagai fakta ilmiah.
+        </div>
+      </div>
+
+      <!-- TAB 5 -->
+      <div class="tab-panel" id="materiTab4">
+        <h3>5. Kaidah Bahasa dalam Artikel Ilmiah Populer</h3>
+        <ul style="margin:12px 0 12px 20px;">
+          <li><strong>Bahasa Baku dan Komunikatif:</strong> Mematuhi EYD V (ejaan yang disempurnakan) namun tetap mengalir hangat dan tidak kaku.</li>
+          <li><strong>Istilah Ilmiah Populer:</strong> Menggunakan kosakata bidang ilmu tertentu (seperti <em>kognitif, ekosistem, dopamin, literasi</em>) yang disertai konteks penjelas.</li>
+          <li><strong>Kalimat Efektif:</strong> Kalimat singkat, jelas, tidak bertele-tele, dan memiliki struktur Subjek-Predikat yang tepat.</li>
+          <li><strong>Penggunaan Data Pendukung:</strong> Menyertakan frasa rujukan seperti <em>"Berdasarkan data UNESCO..."</em> atau <em>"Hasil penelitian menunjukkan..."</em>.</li>
+        </ul>
+        <div class="example-box">
+          <strong>💡 Contoh Kalimat Efektif:</strong> "Kebiasaan menjaga kebersihan kelas mencegah perkembangbiakan nyamuk <em>Aedes aegypti</em> penyebab demam berdarah."
+        </div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">← Kembali ke Menu</button>
+        <button class="btn btn-accent" onclick="showScreen('screenLab')">Lanjut ke Laboratorium Literasi →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. LABORATORIUM DETEKTIF LITERASI ==================== -->
+  <section id="screenLab" class="screen">
+    <div class="card">
+      <h2 style="color:var(--primary); margin-bottom:10px;">🔬 Laboratorium Detektif Literasi</h2>
+      <p style="margin-bottom:14px;">Bacalah artikel ilmiah populer di bawah ini dengan saksama, lalu selesaikan 6 misi investigasi di bawahnya!</p>
+
+      <div class="article-box">
+        <h3>Mengapa Membaca Buku Penting bagi Perkembangan Otak Remaja?</h3>
+        <p>
+          Di tengah maraknya hiburan video pendek di ponsel pintar, kebiasaan membaca buku sering kali dianggap membosankan oleh sebagian remaja. Padahal, berbagai penelitian ilmu saraf membuktikan bahwa membaca buku merupakan salah satu latihan terbaik untuk menjaga ketajaman dan kesehatan otak manusia.
+        </p>
+        <p>
+          Saat seseorang membaca buku secara mendalam, otak mengaktifkan jaringan saraf kompleks yang mengatur bahasa, ingatan, dan imajinasi. Penelitian yang dilakukan oleh Emory University (2013) dan dipublikasikan dalam jurnal <em>Brain Connectivity</em> menunjukkan bahwa membaca novel meningkatkan konektivitas (hubungan antarjaringan saraf) di bagian <em>korteks somatosensori</em>, yaitu area otak yang berperan memproses sensasi fisik dan empati. Peningkatan aktivitas otak tersebut bahkan tetap bertahan hingga lima hari setelah kegiatan membaca selesai.
+        </p>
+        <p>
+          Selain memperkuat jaringan saraf, membaca buku juga melatih fungsi <em>kognitif</em> (kemampuan berpikir, mengingat, dan memecahkan masalah) serta memperkaya kosakata. Menurut data UNESCO, negara-negara dengan tingkat literasi membaca yang tinggi memiliki indeks kualitas sumber daya manusia yang lebih unggul. Membaca buku cetak atau buku digital panjang juga melatih fokus berkelanjutan, berbeda dengan guliran media sosial yang cenderung memecah perhatian.
+        </p>
+        <p>
+          Oleh karena itu, pelajar SMP sangat disarankan meluangkan waktu minimal 20 hingga 30 menit setiap hari untuk membaca buku nonpelajaran maupun buku pengetahuan. Kebiasaan sederhana ini merupakan investasi jangka panjang yang sangat berharga untuk membangun kecerdasan dan daya pikir kritis di masa depan.
+        </p>
+        <div class="ref-box">
+          <strong>Sumber Referensi Terverifikasi:</strong><br/>
+          • Berns, G. S., Blaine, K., Prietula, M. J., & Pye, B. E. (2013). <em>Short- and Long-Term Effects of a Novel on Connectivity in the Brain</em>. Jurnal <em>Brain Connectivity</em>, 3(6), 590–600.<br/>
+          • UNESCO Institute for Statistics (UIS) – <em>Global Literacy Data & Education Report</em>.
+        </div>
+      </div>
+
+      <h3 style="color:var(--primary); margin-bottom:12px;">🕵️‍♂️ Lembar Kerja Investigasi Detektif</h3>
+      <div id="labTasksContainer"></div>
+
+      <div style="margin-top:20px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">← Menu Utama</button>
+        <button class="btn btn-accent" onclick="showScreen('screenGames')">Lanjut ke Arena Game →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. ARENA 5 GAME INTERAKTIF ==================== -->
+  <section id="screenGames" class="screen">
+    <div class="card">
+      <h2 style="color:var(--primary);">🎮 Arena 5 Game Detektif Literasi</h2>
+      <p style="margin-bottom:16px;">Selesaikan kelima misi permainan berikut. Setiap permainan memiliki skor maksimal <strong>100</strong>.</p>
+
+      <div class="tab-buttons">
+        <button class="tab-btn active" onclick="openGame(1, this)">Game 1: Fakta/Opini (<span id="badgeG1">0</span>)</button>
+        <button class="tab-btn" onclick="openGame(2, this)">Game 2: Bedah Artikel (<span id="badgeG2">0</span>)</button>
+        <button class="tab-btn" onclick="openGame(3, this)">Game 3: Ciri Artikel (<span id="badgeG3">0</span>)</button>
+        <button class="tab-btn" onclick="openGame(4, this)">Game 4: Unsur Artikel (<span id="badgeG4">0</span>)</button>
+        <button class="tab-btn" onclick="openGame(5, this)">Game 5: Istilah Ilmiah (<span id="badgeG5">0</span>)</button>
+      </div>
+
+      <div id="gameViewport" style="margin-top:16px;"></div>
+
+      <div style="margin-top:24px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">← Menu Utama</button>
+        <button class="btn btn-primary" onclick="showScreen('screenKuis')">Lanjut ke Kuis Evaluasi →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. KUIS EVALUASI (15 SOAL) ==================== -->
+  <section id="screenKuis" class="screen">
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <h2 style="color:var(--primary);">📝 Ujian Lisensi Detektif (15 Soal)</h2>
+        <span style="background:#fef08a; padding:4px 12px; border-radius:12px; font-weight:700;">KKTP: <span id="kktpBadge">75</span></span>
+      </div>
+      <p style="color:var(--muted); margin-bottom:12px;">Baca kutipan stimulus dengan teliti sebelum memilih jawaban A, B, C, atau D.</p>
+
+      <div class="progress-bar"><div id="quizProgress" class="progress-fill"></div></div>
+      <div id="quizContainer"></div>
+
+      <div style="margin-top:20px;">
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">← Menu Utama</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 7. REFLEKSI PEMBELAJARAN ==================== -->
+  <section id="screenRefleksi" class="screen">
+    <div class="card">
+      <h2 style="color:var(--primary); margin-bottom:8px;">💭 Jurnal Refleksi Detektif</h2>
+      <p style="color:var(--muted); margin-bottom:16px;">Jawablah 5 pertanyaan refleksi berikut dengan jujur berdasarkan pengalaman belajarmu.</p>
+
+      <div class="form-group">
+        <label>1. Apa pengetahuan baru yang kamu peroleh setelah mempelajari artikel ilmiah populer?</label>
+        <textarea id="ref1" class="form-control" rows="2" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>2. Apa perbedaan mendasar antara fakta dan opini yang kamu pahami?</label>
+        <textarea id="ref2" class="form-control" rows="2" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>3. Bagian mana dari artikel ilmiah populer yang paling mudah kamu identifikasi? Mengapa?</label>
+        <textarea id="ref3" class="form-control" rows="2" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>4. Mengapa kita harus membaca artikel dari sumber yang terpercaya (sikap tabayyun)?</label>
+        <textarea id="ref4" class="form-control" rows="2" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>5. Bagaimana pengetahuan dari artikel ilmiah populer dapat kamu terapkan dalam kehidupan sehari-hari?</label>
+        <textarea id="ref5" class="form-control" rows="2" placeholder="Tuliskan jawabanmu..."></textarea>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-top:16px;">
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">← Menu Utama</button>
+        <button class="btn btn-accent" onclick="saveReflectionAndGoReport()">Simpan & Lihat Hasil Belajar →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 8. HASIL BELAJAR & KIRIM KE GURU ==================== -->
+  <section id="screenHasil" class="screen">
+    <div class="card">
+      <h2 style="color:var(--primary); margin-bottom:12px;">🏆 Laporan Hasil Belajar Siswa</h2>
+      <table>
+        <tbody>
+          <tr><th>Nama Siswa</th><td id="resNama">-</td></tr>
+          <tr><th>Kelas</th><td id="resKelas">-</td></tr>
+          <tr><th>Tanggal Pengerjaan</th><td id="resTanggal">-</td></tr>
+          <tr><th>Skor Game 1 (Fakta & Opini)</th><td id="resG1">0</td></tr>
+          <tr><th>Skor Game 2 (Bedah Artikel)</th><td id="resG2">0</td></tr>
+          <tr><th>Skor Game 3 (Ciri-ciri Artikel)</th><td id="resG3">0</td></tr>
+          <tr><th>Skor Game 4 (Unsur Artikel)</th><td id="resG4">0</td></tr>
+          <tr><th>Skor Game 5 (Istilah Ilmiah)</th><td id="resG5">0</td></tr>
+          <tr><th>Nilai Kuis Evaluasi (0–100)</th><td id="resKuis" style="font-weight:800; font-size:1.1rem;">0</td></tr>
+          <tr><th>Predikat</th><td id="resPredikat">-</td></tr>
+          <tr><th>Status Ketuntasan (KKTP <span id="resKktp">75</span>)</th><td id="resStatus">-</td></tr>
+          <tr><th>Ringkasan Refleksi</th><td id="resRefleksi" style="font-size:0.9rem;">-</td></tr>
+        </tbody>
+      </table>
+
+      <div class="islamic-banner">
+        <strong>🌟 Pesan Karakter Islami:</strong>
+        "Alhamdulillah, kamu telah berikhtiar menuntut ilmu dengan jujur dan teliti. Gunakan ilmumu untuk menyebarkan kebaikan dan kebenaran."
+      </div>
+
+      <div id="sendStatusBox" style="margin:12px 0; font-weight:700;"></div>
+
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;">
+        <button class="btn btn-accent" id="btnKirimGuru" onclick="submitToSpreadsheet()">📤 KIRIM HASIL KE GURU</button>
+        <button class="btn btn-outline" onclick="showScreen('screenMenu')">🏠 Kembali ke Menu Utama</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ==================== MODAL PENGATURAN GURU ==================== -->
+<div class="modal-backdrop" id="teacherModal">
+  <div class="modal-content">
+    <h3 style="color:var(--primary); margin-bottom:12px;">⚙️ Panel Konfigurasi Guru</h3>
+    <p style="font-size:0.88rem; color:var(--muted); margin-bottom:14px;">
+      Atur tautan Google Docs, URL Web App Google Apps Script, ID Spreadsheet, serta nilai KKTP. Pengaturan tersimpan otomatis di browser ini.
+    </p>
+
+    <div class="form-group">
+      <label>PIN Akses Guru (Default: 1234)</label>
+      <input type="password" id="cfgPin" class="form-control" placeholder="Masukkan PIN (1234)" />
+    </div>
+    <div class="form-group">
+      <label>KKTP (Kriteria Ketercapaian Tujuan Pembelajaran)</label>
+      <input type="number" id="cfgKktp" class="form-control" value="75" min="0" max="100" />
+    </div>
+    <div class="form-group">
+      <label>URL Google Apps Script (Web App URL)</label>
+      <input type="url" id="cfgGasUrl" class="form-control" placeholder="https://script.google.com/macros/s/.../exec" />
+    </div>
+    <div class="form-group">
+      <label>ID Google Spreadsheet (Opsional untuk catatan guru)</label>
+      <input type="text" id="cfgSheetId" class="form-control" placeholder="1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms" />
+    </div>
+    <div class="form-group">
+      <label>URL Google Docs - Materi Lengkap</label>
+      <input type="url" id="cfgDocMateri" class="form-control" placeholder="https://docs.google.com/document/d/..." />
+    </div>
+    <div class="form-group">
+      <label>URL Google Docs - Artikel Ilmiah Populer</label>
+      <input type="url" id="cfgDocArtikel" class="form-control" placeholder="https://docs.google.com/document/d/..." />
+    </div>
+    <div class="form-group">
+      <label>URL Google Docs - LKPD</label>
+      <input type="url" id="cfgDocLkpd" class="form-control" placeholder="https://docs.google.com/document/d/..." />
+    </div>
+    <div class="form-group">
+      <label>URL Google Docs - Unduh Lembar Kerja (Format Export/PDF)</label>
+      <input type="url" id="cfgDocUnduh" class="form-control" placeholder="https://docs.google.com/document/d/.../export?format=pdf" />
+    </div>
+
+    <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+      <button class="btn btn-outline" onclick="closeTeacherModal()">Batal</button>
+      <button class="btn btn-primary" onclick="saveTeacherConfig()">💾 Simpan Konfigurasi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   1. STATE & KONFIGURASI GURU
+   ========================================================================== */
+const DEFAULT_CONFIG = {
+  kktp: 75,
+  gasUrl: "", // Tempel URL Web App Google Apps Script di sini atau lewat menu Pengaturan Guru
+  sheetId: "",
+  docMateri: "",
+  docArtikel: "",
+  docLkpd: "",
+  docUnduh: ""
+};
+
+let config = JSON.parse(localStorage.getItem('detektif_config')) || { ...DEFAULT_CONFIG };
+
+let studentState = {
+  nama: "",
+  kelas: "",
+  scores: { g1: 0, g2: 0, g3: 0, g4: 0, g5: 0 },
+  quizScore: 0,
+  refleksi: ["", "", "", "", ""]
+};
+
+function applyConfigToUI() {
+  document.getElementById('kktpBadge').textContent = config.kktp;
+  document.getElementById('displayKktpMenu').textContent = config.kktp;
+  document.getElementById('resKktp').textContent = config.kktp;
+
+  document.getElementById('linkMateriDocs').href = config.docMateri || "#";
+  document.getElementById('linkArtikelDocs').href = config.docArtikel || "#";
+  document.getElementById('linkLkpdDocs').href = config.docLkpd || "#";
+  document.getElementById('linkUnduhDocs').href = config.docUnduh || "#";
+}
+
+function checkDocLink(e, type) {
+  const map = { materi: config.docMateri, artikel: config.docArtikel, lkpd: config.docLkpd, unduh: config.docUnduh };
+  if (!map[type]) {
+    e.preventDefault();
+    alert("Tautan Google Docs untuk bagian ini belum diatur oleh guru. Silakan atur melalui tombol 'Pengaturan Guru' di pojok kanan atas.");
+  }
+}
+
+function openTeacherModal() {
+  document.getElementById('cfgKktp').value = config.kktp;
+  document.getElementById('cfgGasUrl').value = config.gasUrl;
+  document.getElementById('cfgSheetId').value = config.sheetId;
+  document.getElementById('cfgDocMateri').value = config.docMateri;
+  document.getElementById('cfgDocArtikel').value = config.docArtikel;
+  document.getElementById('cfgDocLkpd').value = config.docLkpd;
+  document.getElementById('cfgDocUnduh').value = config.docUnduh;
+  document.getElementById('teacherModal').classList.add('open');
+}
+function closeTeacherModal() {
+  document.getElementById('teacherModal').classList.remove('open');
+}
+function saveTeacherConfig() {
+  const pin = document.getElementById('cfgPin').value;
+  if (pin !== "1234") {
+    alert("PIN Guru salah! Gunakan PIN default: 1234");
+    return;
+  }
+  config = {
+    kktp: Number(document.getElementById('cfgKktp').value) || 75,
+    gasUrl: document.getElementById('cfgGasUrl').value.trim(),
+    sheetId: document.getElementById('cfgSheetId').value.trim(),
+    docMateri: document.getElementById('cfgDocMateri').value.trim(),
+    docArtikel: document.getElementById('cfgDocArtikel').value.trim(),
+    docLkpd: document.getElementById('cfgDocLkpd').value.trim(),
+    docUnduh: document.getElementById('cfgDocUnduh').value.trim()
+  };
+  localStorage.setItem('detektif_config', JSON.stringify(config));
+  applyConfigToUI();
+  closeTeacherModal();
+  alert("Konfigurasi berhasil disimpan!");
+}
+
+/* ==========================================================================
+   2. NAVIGASI LAYAR & MATERI
+   ========================================================================== */
+function showScreen(screenId) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(screenId).classList.add('active');
+  document.getElementById('btnHome').style.display = (screenId === 'screenWelcome') ? 'none' : 'inline-flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startMission() {
+  const nama = document.getElementById('inputNama').value.trim();
+  const kelas = document.getElementById('inputKelas').value.trim();
+  if (!nama || !kelas) {
+    alert("Mohon isi Nama Lengkap dan Kelas terlebih dahulu sebelum memulai misi!");
+    return;
+  }
+  studentState.nama = nama;
+  studentState.kelas = kelas;
+  const infoEl = document.getElementById('headerStudentInfo');
+  infoEl.textContent = `🕵️ ${nama} (${kelas})`;
+  infoEl.style.display = 'inline';
+  showScreen('screenMenu');
+}
+
+function switchMateriTab(idx, btnEl) {
+  document.querySelectorAll('#screenMateri .tab-btn').forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+  document.querySelectorAll('#screenMateri .tab-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+}
+
+/* ==========================================================================
+   3. LABORATORIUM DETEKTIF LITERASI (6 AKTIVITAS)
+   ========================================================================== */
+const LAB_TASKS = [
+  {
+    q: "1. Temukan judul artikel ilmiah populer di atas!",
+    options: [
+      "Bahaya Ponsel Pintar bagi Remaja SMP",
+      "Mengapa Membaca Buku Penting bagi Perkembangan Otak Remaja?",
+      "Cara Mudah Menghafal Kosakata Baru"
+    ],
+    ans: 1,
+    feedback: "Tepat! Judulnya berbentuk pertanyaan pemantik rasa ingin tahu dan merangkum inti bahasan."
+  },
+  {
+    q: "2. Paragraf manakah yang berfungsi sebagai bagian PENUTUP artikel?",
+    options: [
+      "Paragraf 1 (membahas hiburan video pendek)",
+      "Paragraf 2 (membahas riset Emory University)",
+      "Paragraf 4 (berisi saran meluangkan waktu 20–30 menit membaca dan simpulan)"
+    ],
+    ans: 2,
+    feedback: "Benar! Paragraf ke-4 berisi simpulan dan saran praktis kepada pelajar SMP."
+  },
+  {
+    q: "3. Manakah pernyataan berikut yang merupakan FAKTA dalam artikel?",
+    options: [
+      "Membaca buku sering kali dianggap membosankan oleh sebagian remaja.",
+      "Penelitian Emory University (2013) menunjukkan peningkatan konektivitas otak bertahan hingga 5 hari setelah membaca novel.",
+      "Pelajar SMP sangat disarankan membaca minimal 20 menit sehari."
+    ],
+    ans: 1,
+    feedback: "Akurat! Pernyataan tersebut merujuk pada hasil studi ilmiah yang terukur dan terverifikasi."
+  },
+  {
+    q: "4. Manakah pernyataan yang merupakan OPINI/SARAN penulis dalam artikel?",
+    options: [
+      "Kebiasaan sederhana ini merupakan investasi jangka panjang yang sangat berharga untuk masa depan.",
+      "Jurnal Brain Connectivity diterbitkan pada tahun 2013.",
+      "UNESCO mengumpulkan data literasi global."
+    ],
+    ans: 0,
+    feedback: "Tepat! Frasa 'sangat berharga' dan ajakan 'investasi jangka panjang' merupakan pandangan/penilaian penulis."
+  },
+  {
+    q: "5. Istilah ilmiah yang dijelaskan artinya secara langsung di dalam artikel adalah...",
+    options: [
+      "Video pendek dan ponsel pintar",
+      "Korteks somatosensori dan kognitif",
+      "Buku cetak dan buku digital"
+    ],
+    ans: 1,
+    feedback: "Hebat! Penulis menjelaskan 'korteks somatosensori' sebagai area pemroses sensasi fisik/empati dan 'kognitif' sebagai kemampuan berpikir."
+  },
+  {
+    q: "6. Apa saja dua sumber referensi resmi yang digunakan dalam artikel tersebut?",
+    options: [
+      "Blog pribadi dan media sosial",
+      "Jurnal Brain Connectivity (Emory University) dan UNESCO Institute for Statistics",
+      "Kementerian Perhubungan dan BMKG"
+    ],
+    ans: 1,
+    feedback: "Benar sekali! Sumber terpercaya menjamin artikel dapat dipertanggungjawabkan secara ilmiah."
+  }
+];
+
+function renderLabTasks() {
+  const container = document.getElementById('labTasksContainer');
+  container.innerHTML = LAB_TASKS.map((t, idx) => `
+    <div style="background:#f8fafc; padding:14px; border-radius:12px; margin-bottom:14px; border:1px solid #cbd5e1;">
+      <p style="font-weight:700; margin-bottom:8px;">${t.q}</p>
+      ${t.options.map((opt, oIdx) => `
+        <button class="option-btn" onclick="checkLabAnswer(${idx}, ${oIdx}, this)">${opt}</button>
+      `).join('')}
+      <div id="labFb${idx}" style="font-size:0.9rem; font-weight:600; margin-top:6px;"></div>
+    </div>
+  `).join('');
+}
+
+function checkLabAnswer(qIdx, oIdx, btn) {
+  const parent = btn.parentElement;
+  parent.querySelectorAll('.option-btn').forEach(b => b.classList.remove('correct', 'wrong'));
+  const fb = document.getElementById(`labFb${qIdx}`);
+  if (oIdx === LAB_TASKS[qIdx].ans) {
+    btn.classList.add('correct');
+    fb.style.color = "var(--success)";
+    fb.textContent = "✅ " + LAB_TASKS[qIdx].feedback;
+  } else {
+    btn.classList.add('wrong');
+    fb.style.color = "var(--danger)";
+    fb.textContent = "❌ Kurang tepat, coba periksa kembali teks artikel di atas!";
+  }
+}
+
+/* ==========================================================================
+   4. ARENA 5 GAME INTERAKTIF
+   ========================================================================== */
+function updateGameScore(gameKey, score) {
+  studentState.scores[gameKey] = Math.max(studentState.scores[gameKey], score);
+  document.getElementById(`badge${gameKey.toUpperCase()}`).textContent = studentState.scores[gameKey];
+}
+
+function openGame(num, btnEl) {
+  if (btnEl) {
+    document.querySelectorAll('#screenGames .tab-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+  }
+  const vp = document.getElementById('gameViewport');
+  if (num === 1) renderGame1(vp);
+  if (num === 2) renderGame2(vp);
+  if (num === 3) renderGame3(vp);
+  if (num === 4) renderGame4(vp);
+  if (num === 5) renderGame5(vp);
+}
+
+/* GAME 1: DETEKTIF FAKTA ATAU OPINI */
+const G1_DATA = [
+  { text: "Menurut Kementerian Kesehatan RI, remaja dianjurkan membatasi konsumsi gula maksimal 50 gram (4 sendok makan) per hari.", type: "FAKTA" },
+  { text: "Minuman kemasan rasa buah jauh lebih menyegarkan dan wajib diminum setelah jam olahraga.", type: "OPINI" },
+  { text: "Indonesia merupakan salah satu negara penyumbang sampah plastik ke laut terbesar di dunia menurut riset Jambeck dkk. (2015).", type: "FAKTA" },
+  { text: "Sebaiknya seluruh sekolah melarang total penggunaan botol plastik sekali pakai mulai bulan depan.", type: "OPINI" },
+  { text: "Cahaya biru (blue light) dari layar gawai dapat menghambat produksi hormon melatonin yang mengatur rasa kantuk.", type: "FAKTA" }
+];
+let g1Idx = 0, g1Correct = 0;
+
+function renderGame1(vp) {
+  if (g1Idx >= G1_DATA.length) {
+    const finalScore = Math.round((g1Correct / G1_DATA.length) * 100);
+    updateGameScore('g1', finalScore);
+    vp.innerHTML = `
+      <div style="text-align:center; padding:20px; background:#eff6ff; border-radius:14px;">
+        <h3>🎉 Misi Game 1 Selesai!</h3>
+        <p style="font-size:1.2rem; margin:10px 0;">Skor Kamu: <strong>${finalScore} / 100</strong> (${g1Correct} dari ${G1_DATA.length} benar)</p>
+        <button class="btn btn-primary" onclick="g1Idx=0; g1Correct=0; renderGame1(document.getElementById('gameViewport'))">🔄 Main Ulang Game 1</button>
+      </div>`;
+    return;
+  }
+  const item = G1_DATA[g1Idx];
+  const pct = (g1Idx / G1_DATA.length) * 100;
+  vp.innerHTML = `
+    <h4>Game 1: Detektif Fakta atau Opini (${g1Idx + 1}/${G1_DATA.length})</h4>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div style="background:#fffbeb; border:2px solid #fde68a; padding:18px; border-radius:12px; margin:14px 0; font-size:1.05rem;">
+      "${item.text}"
+    </div>
+    <div style="display:flex; gap:12px;">
+      <button class="btn btn-primary" style="flex:1;" onclick="answerG1('FAKTA')">📌 INI FAKTA</button>
+      <button class="btn btn-accent" style="flex:1;" onclick="answerG1('OPINI')">💬 INI OPINI</button>
+    </div>
+    <div id="g1Fb" style="margin-top:12px; font-weight:700;"></div>
+  `;
+}
+
+function answerG1(choice) {
+  const item = G1_DATA[g1Idx];
+  const fb = document.getElementById('g1Fb');
+  if (choice === item.type) {
+    g1Correct++;
+    fb.style.color = "var(--success)";
+    fb.textContent = "✅ Benar! Klasifikasi tepat.";
+  } else {
+    fb.style.color = "var(--danger)";
+    fb.textContent = `❌ Kurang tepat. Pernyataan tersebut adalah ${item.type}.`;
+  }
+  setTimeout(() => { g1Idx++; renderGame1(document.getElementById('gameViewport')); }, 900);
+}
+
+/* GAME 2: BEDAH ARTIKEL (DRAG & DROP + TAP SUPPORT UNTUK HP) */
+const G2_ITEMS = [
+  { id: "p1", text: "Bahaya Begadang bagi Daya Ingat Pelajar SMP", zone: "judul" },
+  { id: "p2", text: "Banyak pelajar sering tidur larut malam demi menyelesaikan tugas atau bermain gim daring. Kebiasaan ini tampak sepele, namun berdampak serius pada otak.", zone: "pembuka" },
+  { id: "p3", text: "Studi dari Sleep Foundation menjelaskan bahwa fase tidur nyenyak (deep sleep) berfungsi memindahkan memori jangka pendek ke memori jangka panjang.", zone: "isi" },
+  { id: "p4", text: "Oleh karena itu, aturlah jadwal belajar sejak sore hari agar kamu bisa tidur minimal 8 jam setiap malam.", zone: "penutup" }
+];
+let selectedG2Id = null;
+
+function renderGame2(vp) {
+  vp.innerHTML = `
+    <h4>Game 2: Bedah Struktur Artikel (Drag & Drop / Ketuk)</h4>
+    <p style="font-size:0.9rem; color:var(--muted); margin-bottom:10px;">
+      Seret potongan teks ke kotak struktur yang sesuai (atau ketuk potongan teks lalu ketuk kotak tujuan di layar HP).
+    </p>
+    <div id="g2Pool">
+      ${G2_ITEMS.map(it => `
+        <div class="dnd-item" draggable="true" id="${it.id}" ondragstart="dragG2(event)" onclick="selectG2Mobile('${it.id}', this)">
+          📄 ${it.text}
+        </div>
+      `).join('')}
+    </div>
+    <div class="dnd-zones">
+      <div class="drop-zone" ondragover="allowDrop(event)" ondrop="dropG2(event, 'judul')" onclick="placeG2Mobile('judul', this)">
+        <h4>1. JUDUL</h4>
+      </div>
+      <div class="drop-zone" ondragover="allowDrop(event)" ondrop="dropG2(event, 'pembuka')" onclick="placeG2Mobile('pembuka', this)">
+        <h4>2. PEMBUKA</h4>
+      </div>
+      <div class="drop-zone" ondragover="allowDrop(event)" ondrop="dropG2(event, 'isi')" onclick="placeG2Mobile('isi', this)">
+        <h4>3. ISI / PEMBAHASAN</h4>
+      </div>
+      <div class="drop-zone" ondragover="allowDrop(event)" ondrop="dropG2(event, 'penutup')" onclick="placeG2Mobile('penutup', this)">
+        <h4>4. PENUTUP</h4>
+      </div>
+    </div>
+    <div style="margin-top:14px; display:flex; gap:10px;">
+      <button class="btn btn-primary" onclick="checkGame2()">✅ Periksa Susunan</button>
+      <button class="btn btn-outline" onclick="renderGame2(document.getElementById('gameViewport'))">🔄 Reset</button>
+    </div>
+    <div id="g2Fb" style="margin-top:10px; font-weight:700;"></div>
+  `;
+}
+
+function allowDrop(ev) { ev.preventDefault(); }
+function dragG2(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+function dropG2(ev, zoneName) {
+  ev.preventDefault();
+  const id = ev.dataTransfer.getData("text");
+  const el = document.getElementById(id);
+  const zone = ev.currentTarget;
+  el.dataset.placed = zoneName;
+  zone.appendChild(el);
+}
+function selectG2Mobile(id, el) {
+  document.querySelectorAll('.dnd-item').forEach(i => i.style.borderColor = 'var(--primary-light)');
+  selectedG2Id = id;
+  el.style.borderColor = 'var(--accent)';
+}
+function placeG2Mobile(zoneName, zoneEl) {
+  if (!selectedG2Id) return;
+  const el = document.getElementById(selectedG2Id);
+  el.dataset.placed = zoneName;
+  el.style.borderColor = 'var(--primary-light)';
+  zoneEl.appendChild(el);
+  selectedG2Id = null;
+}
+function checkGame2() {
+  let benar = 0;
+  G2_ITEMS.forEach(it => {
+    const el = document.getElementById(it.id);
+    if (el && el.dataset.placed === it.zone) benar++;
+  });
+  const skor = Math.round((benar / G2_ITEMS.length) * 100);
+  updateGameScore('g2', skor);
+  const fb = document.getElementById('g2Fb');
+  fb.style.color = skor === 100 ? "var(--success)" : "var(--accent)";
+  fb.textContent = `Hasil Bedah Artikel: ${benar} dari 4 bagian tepat! Skor kamu: ${skor}/100.`;
+}
+
+/* GAME 3: TEMUKAN CIRI-CIRINYA */
+const G3_OPTIONS = [
+  { text: "Menggunakan bahasa yang komunikatif dan mudah dipahami masyarakat umum.", isCiri: true },
+  { text: "Berisi cerita khayalan atau dongeng fiksi tanpa bukti penelitian.", isCiri: false },
+  { text: "Memuat fakta dan data dari sumber kajian ilmiah yang dapat diverifikasi.", isCiri: true },
+  { text: "Menggunakan istilah ilmiah yang dijelaskan artinya secara sederhana.", isCiri: true },
+  { text: "Bersifat subjektif dan memaksakan emosi penulis kepada pembaca.", isCiri: false },
+  { text: "Disusun secara sistematis mulai dari pendahuluan, isi, hingga penutup.", isCiri: true }
+];
+
+function renderGame3(vp) {
+  vp.innerHTML = `
+    <h4>Game 3: Temukan 4 Ciri Artikel Ilmiah Populer</h4>
+    <p style="font-size:0.9rem; color:var(--muted); margin-bottom:12px;">Centang pernyataan yang benar-benar merupakan ciri artikel ilmiah populer!</p>
+    ${G3_OPTIONS.map((o, i) => `
+      <label style="display:block; background:#f8fafc; padding:12px; border:2px solid #cbd5e1; border-radius:10px; margin-bottom:8px; cursor:pointer;">
+        <input type="checkbox" class="g3-chk" value="${i}" style="margin-right:8px; transform:scale(1.2);" /> ${o.text}
+      </label>
+    `).join('')}
+    <button class="btn btn-primary" style="margin-top:10px;" onclick="checkGame3()">🔍 Cek Pilihan Saya</button>
+    <div id="g3Fb" style="margin-top:10px; font-weight:700;"></div>
+  `;
+}
+
+function checkGame3() {
+  const chks = document.querySelectorAll('.g3-chk');
+  let correctCount = 0;
+  chks.forEach((c, idx) => {
+    if (c.checked === G3_OPTIONS[idx].isCiri) correctCount++;
+  });
+  const skor = Math.round((correctCount / G3_OPTIONS.length) * 100);
+  updateGameScore('g3', skor);
+  const fb = document.getElementById('g3Fb');
+  fb.style.color = skor >= 80 ? "var(--success)" : "var(--accent)";
+  fb.textContent = `Ketepatan analisis ciri: ${correctCount}/${G3_OPTIONS.length} tepat. Skor kamu: ${skor}/100.`;
+}
+
+/* GAME 4: BERBURU UNSUR ARTIKEL */
+const G4_QUESTIONS = [
+  {
+    quote: "Berdasarkan laporan Badan Pusat Statistik (BPS), jumlah pengguna internet di kalangan pelajar terus meningkat setiap tahun.",
+    q: "Kutipan di atas termasuk unsur...",
+    opts: ["Fakta dan data pendukung", "Opini penulis", "Judul artikel"],
+    ans: 0
+  },
+  {
+    quote: "Sumber: Kementerian Lingkungan Hidup dan Kehutanan (KLHK), Laporan Pengelolaan Sampah Nasional.",
+    q: "Bagian tersebut merupakan unsur...",
+    opts: ["Pendahuluan", "Sumber informasi / referensi", "Istilah ilmiah"],
+    ans: 1
+  },
+  {
+    quote: "Mari kita mulai membawa botol minum isi ulang ke sekolah sebagai langkah nyata mengurangi sampah plastik.",
+    q: "Kalimat ajakan tersebut termasuk unsur...",
+    opts: ["Data statistik", "Opini / saran pada bagian penutup", "Judul utama"],
+    ans: 1
+  }
+];
+let g4Idx = 0, g4ScoreCount = 0;
+
+function renderGame4(vp) {
+  if (g4Idx >= G4_QUESTIONS.length) {
+    const skor = Math.round((g4ScoreCount / G4_QUESTIONS.length) * 100);
+    updateGameScore('g4', skor);
+    vp.innerHTML = `
+      <div style="text-align:center; padding:20px; background:#eff6ff; border-radius:14px;">
+        <h3>🎉 Perburuan Unsur Selesai!</h3>
+        <p style="font-size:1.2rem; margin:10px 0;">Skor Game 4: <strong>${skor} / 100</strong></p>
+        <button class="btn btn-primary" onclick="g4Idx=0; g4ScoreCount=0; renderGame4(document.getElementById('gameViewport'))">🔄 Ulangi Game 4</button>
+      </div>`;
+    return;
+  }
+  const item = G4_QUESTIONS[g4Idx];
+  vp.innerHTML = `
+    <h4>Game 4: Berburu Unsur Artikel (${g4Idx + 1}/${G4_QUESTIONS.length})</h4>
+    <div class="progress-bar"><div class="progress-fill" style="width:${(g4Idx/G4_QUESTIONS.length)*100}%"></div></div>
+    <div class="example-box" style="margin-bottom:12px;"><em>"${item.quote}"</em></div>
+    <p style="font-weight:700; margin-bottom:10px;">${item.q}</p>
+    ${item.opts.map((o, i) => `<button class="option-btn" onclick="answerG4(${i})">${o}</button>`).join('')}
+    <div id="g4Fb" style="font-weight:700; margin-top:8px;"></div>
+  `;
+}
+function answerG4(i) {
+  const fb = document.getElementById('g4Fb');
+  if (i === G4_QUESTIONS[g4Idx].ans) {
+    g4ScoreCount++;
+    fb.style.color = "var(--success)";
+    fb.textContent = "✅ Tepat sekali!";
+  } else {
+    fb.style.color = "var(--danger)";
+    fb.textContent = "❌ Kurang tepat.";
+  }
+  setTimeout(() => { g4Idx++; renderGame4(document.getElementById('gameViewport')); }, 800);
+}
+
+/* GAME 5: TEBAK ISTILAH ILMIAH */
+const G5_PAIRS = [
+  { term: "Kognitif", def: "Kemampuan otak dalam berpikir, mengingat, dan memecahkan masalah" },
+  { term: "Melatonin", def: "Hormon alami tubuh yang mengatur siklus tidur dan rasa kantuk" },
+  { term: "Ekosistem", def: "Hubungan timbal balik antara makhluk hidup dengan lingkungannya" },
+  { term: "Tabayyun", def: "Sikap meneliti dan memeriksa kebenaran suatu berita sebelum mempercayainya" }
+];
+
+function renderGame5(vp) {
+  const shuffledDefs = [...G5_PAIRS].sort(() => Math.random() - 0.5);
+  vp.innerHTML = `
+    <h4>Game 5: Tebak Pengertian Istilah Ilmiah</h4>
+    <p style="font-size:0.9rem; color:var(--muted); margin-bottom:12px;">Pasangkan setiap istilah di sebelah kiri dengan arti sederhananya di sebelah kanan!</p>
+    ${G5_PAIRS.map((p, idx) => `
+      <div style="display:grid; grid-template-columns:1fr 2fr; gap:10px; align-items:center; margin-bottom:10px; background:#f8fafc; padding:10px; border-radius:10px;">
+        <strong>🔬 ${p.term}</strong>
+        <select class="form-control g5-sel" data-term="${p.term}">
+          <option value="">-- Pilih arti yang tepat --</option>
+          ${shuffledDefs.map(d => `<option value="${d.term}">${d.def}</option>`).join('')}
+        </select>
+      </div>
+    `).join('')}
+    <button class="btn btn-primary" onclick="checkGame5()">✅ Periksa Jawaban</button>
+    <div id="g5Fb" style="margin-top:10px; font-weight:700;"></div>
+  `;
+}
+
+function checkGame5() {
+  const sels = document.querySelectorAll('.g5-sel');
+  let benar = 0;
+  sels.forEach(s => { if (s.value === s.dataset.term) benar++; });
+  const skor = Math.round((benar / G5_PAIRS.length) * 100);
+  updateGameScore('g5', skor);
+  const fb = document.getElementById('g5Fb');
+  fb.style.color = skor === 100 ? "var(--success)" : "var(--accent)";
+  fb.textContent = `Kamu berhasil mencocokkan ${benar} dari ${G5_PAIRS.length} istilah ilmiah! Skor: ${skor}/100.`;
+}
+
+/* ==========================================================================
+   5. KUIS EVALUASI (15 SOAL PILIHAN GANDA BERBASIS LITERASI C2-C4)
+   ========================================================================== */
+const QUIZ_QUESTIONS = [
+  {
+    stimulus: "Artikel ilmiah populer ditulis untuk menjembatani dunia penelitian dengan masyarakat luas sehingga temuan sains dapat dipahami tanpa harus menguasai bahasa teknis laboratorium.",
+    q: "1. Berdasarkan stimulus tersebut, tujuan utama penulisan artikel ilmiah populer adalah...",
+    opts: [
+      "Menyampaikan pengetahuan ilmiah dengan bahasa yang mudah dipahami masyarakat umum",
+      "Menghibur pembaca melalui cerita rekaan yang penuh imajinasi",
+      "Menguji kemampuan bahasa asing para peneliti di universitas",
+      "Mempromosikan produk kesehatan agar laku di pasaran"
+    ],
+    ans: 0,
+    exp: "Artikel ilmiah populer bertujuan menyebarluaskan temuan/pengetahuan ilmiah kepada masyarakat luas dengan bahasa yang komunikatif."
+  },
+  {
+    stimulus: "Kutipan: 'Penggunaan gawai sebelum tidur menurunkan kualitas istirahat remaja karena pancaran cahaya biru layar menghambat hormon melatonin.'",
+    q: "2. Mengapa kutipan di atas memenuhi ciri artikel ilmiah populer?",
+    opts: [
+      "Menggunakan bahasa daerah yang santai",
+      "Membahas fenomena sehari-hari berdasarkan penjelasan ilmiah yang mudah dicerna",
+      "Berisi pendapat pribadi tanpa dasar ilmu pengetahuan",
+      "Menggunakan rumus kimia yang rumit"
+    ],
+    ans: 1,
+    exp: "Topik dekat dengan siswa (gawai & tidur) serta dijelaskan secara ilmiah dengan bahasa yang jelas."
+  },
+  {
+    stimulus: "(1) Sampah plastik membutuhkan waktu ratusan tahun untuk terurai di alam. (2) Menurut data KLHK, jutaan ton sampah plastik dihasilkan setiap tahun. (3) Pemerintah sebaiknya memperbanyak tempat sampah terpilah di sekolah. (4) Mikroplastik telah ditemukan pada tubuh ikan laut.",
+    q: "3. Kalimat yang merupakan OPINI dalam kutipan di atas ditunjukkan oleh nomor...",
+    opts: ["(1)", "(2)", "(3)", "(4)"],
+    ans: 2,
+    exp: "Kalimat (3) menggunakan kata 'sebaiknya' yang menandai saran/pandangan penulis (opini)."
+  },
+  {
+    stimulus: "Dalam sebuah artikel tentang kebersihan lingkungan, penulis menulis: 'Genangan air di kaleng bekas menjadi tempat berkembang biak nyamuk Aedes aegypti penyebab demam berdarah.'",
+    q: "4. Pernyataan tersebut termasuk fakta karena...",
+    opts: [
+      "Merupakan dugaan penulis semata",
+      "Dapat dibuktikan kebenarannya secara biologis dan medis",
+      "Mengandung ajakan emosional",
+      "Belum pernah diteliti oleh para ahli"
+    ],
+    ans: 1,
+    exp: "Siklus hidup nyamuk Aedes aegypti pada genangan air merupakan fakta ilmiah yang teruji."
+  },
+  {
+    stimulus: "Judul: 'Rahasia Tidur Cukup: Kunci Konsentrasi Belajar di Kelas'\nParagraf 1: Menggambarkan kebiasaan siswa mengantuk saat jam pelajaran pertama.\nParagraf 2–3: Memaparkan hasil riset kebutuhan tidur remaja 8–10 jam.\nParagraf 4: Mengajak siswa mengatur jam tidur.",
+    q: "5. Struktur artikel ilmiah populer di atas disusun secara sistematis dengan urutan...",
+    opts: [
+      "Judul – Penutup – Isi – Pembuka",
+      "Judul – Pembuka – Isi – Penutup",
+      "Pembuka – Judul – Penutup – Isi",
+      "Isi – Pembuka – Judul – Penutup"
+    ],
+    ans: 1,
+    exp: "Struktur artikel yang runtut dimulai dari Judul, Pembuka (pengantar masalah), Isi (pembahasan ilmiah), dan Penutup (simpulan/ajakan)."
+  },
+  {
+    stimulus: "Kutipan: 'Membaca buku melatih fungsi kognitif, yaitu kemampuan otak untuk berpikir, memusatkan perhatian, dan mengingat informasi.'",
+    q: "6. Cara penulis menjelaskan istilah ilmiah 'kognitif' dalam kutipan tersebut adalah...",
+    opts: [
+      "Membiarkan pembaca mencari sendiri di kamus",
+      "Memberikan definisi sederhana langsung setelah istilah tersebut disebutkan",
+      "Menggantinya dengan bahasa slang remaja",
+      "Menuliskannya dalam catatan kaki berbahasa Latin"
+    ],
+    ans: 1,
+    exp: "Salah satu ciri kebahasaan artikel ilmiah populer adalah menjelaskan istilah teknis secara langsung dengan bahasa sederhana."
+  },
+  {
+    stimulus: "Sebuah artikel kesehatan mencantumkan kalimat: 'Data Riset Kesehatan Dasar (Riskesdas) menunjukkan peningkatan konsumsi minuman manis pada remaja usia 10–14 tahun.'",
+    q: "7. Fungsi pencantuman nama lembaga 'Riset Kesehatan Dasar (Riskesdas)' dalam artikel tersebut adalah...",
+    opts: [
+      "Memperpanjang jumlah halaman artikel",
+      "Memperkuat kredibilitas fakta dengan sumber resmi yang dapat diverifikasi",
+      "Menunjukkan bahwa penulis mengenal pejabat pemerintah",
+      "Mengalihkan perhatian pembaca dari topik utama"
+    ],
+    ans: 1,
+    exp: "Sumber resmi (seperti Riskesdas/Kemenkes) membuktikan bahwa data yang disajikan valid dan bukan karangan."
+  },
+  {
+    stimulus: "Perhatikan dua kalimat berikut:\nKalimat A: 'Suhu rata-rata bumi meningkat sekitar 1,1°C dibandingkan era praindustri menurut laporan IPCC.'\nKalimat B: 'Cuaca hari ini terasa sangat menyebalkan dan membuat orang malas keluar rumah.'",
+    q: "8. Perbedaan tepat antara Kalimat A dan Kalimat B adalah...",
+    opts: [
+      "Kalimat A adalah opini, Kalimat B adalah fakta",
+      "Kalimat A adalah fakta berbasis data ilmiah, Kalimat B adalah opini subjektif",
+      "Keduanya merupakan fakta ilmiah",
+      "Keduanya merupakan opini penulis"
+    ],
+    ans: 1,
+    exp: "Kalimat A memuat data terukur dari IPCC (fakta), sedangkan Kalimat B berisi penilaian perasaan ('menyebalkan') yang subjektif (opini)."
+  },
+  {
+    stimulus: "Seorang siswa menerima pesan berantai di grup WhatsApp yang mengklaim bahwa 'minum air es setelah makan langsung membekukan lemak di jantung' tanpa mencantumkan sumber penelitian apa pun.",
+    q: "9. Jika menerapkan prinsip literasi artikel ilmiah populer dan sikap tabayyun, tindakan terbaik siswa tersebut adalah...",
+    opts: [
+      "Langsung meneruskan pesan ke semua grup agar terlihat peduli",
+      "Memeriksa kebenaran informasi tersebut melalui situs kesehatan resmi (Kemenkes/WHO) sebelum mempercayainya",
+      "Mempercayainya karena pesan tersebut dikirim oleh teman dekat",
+      "Menambahkan opini pribadi lalu menyebarkannya kembali"
+    ],
+    ans: 1,
+    exp: "Tabayyun dan literasi kritis menuntut kita memverifikasi klaim kesehatan ke sumber ilmiah terpercaya sebelum menyebarkannya."
+  },
+  {
+    stimulus: "Kutipan penutup: 'Menjaga kebersihan lingkungan sekolah bukan hanya tugas petugas kebersihan, melainkan tanggung jawab seluruh warga sekolah demi menciptakan suasana belajar yang sehat.'",
+    q: "10. Unsur artikel ilmiah populer yang dominan dalam kutipan penutup tersebut adalah...",
+    opts: [
+      "Data statistik tahunan",
+      "Pandangan/ajakan penulis sebagai simpulan",
+      "Daftar pustaka jurnal",
+      "Definisi istilah biologi"
+    ],
+    ans: 1,
+    exp: "Bagian penutup umumnya merangkum pesan utama dan berisi ajakan atau pandangan logis penulis."
+  },
+  {
+    stimulus: "Kalimat tidak efektif: 'Para siswa-siswa kelas VIII mereka sedang melakukan penelitian tentang sampah plastik di lingkungan sekolah.'",
+    q: "11. Perbaikan kalimat di atas agar memenuhi kaidah kalimat efektif dalam artikel ilmiah populer adalah...",
+    opts: [
+      "Para siswa kelas VIII sedang melakukan penelitian tentang sampah plastik di lingkungan sekolah.",
+      "Siswa-siswa para kelas VIII mereka meneliti sampah plastik.",
+      "Para siswa-siswa kelas VIII sedang meneliti tentang sampah plastik.",
+      "Mereka para siswa-siswa kelas VIII meneliti sampah plastik di sekolah."
+    ],
+    ans: 0,
+    exp: "Kata 'para' sudah bermakna jamak sehingga tidak perlu diulang ('siswa-siswa') dan tidak perlu subjek ganda ('mereka')."
+  },
+  {
+    stimulus: "Judul A: 'Pengaruh Durasi Paparan Cahaya Layar Terhadap Sekresi Melatonin Nokturnal pada Remaja'\nJudul B: 'Mengapa Main HP Sebelum Tidur Bikin Susah Terlelap?'",
+    q: "12. Analisis yang tepat mengenai kedua judul di atas adalah...",
+    opts: [
+      "Judul A cocok untuk artikel ilmiah populer, Judul B untuk cerpen",
+      "Judul A menggunakan bahasa jurnal akademik murni, sedangkan Judul B lebih komunikatif untuk artikel ilmiah populer",
+      "Judul B tidak memiliki dasar ilmiah sama sekali",
+      "Keduanya melanggar aturan penulisan judul"
+    ],
+    ans: 1,
+    exp: "Artikel ilmiah populer memilih judul yang komunikatif dan menarik bagi pembaca umum seperti Judul B, sementara Judul A terlalu teknis."
+  },
+  {
+    stimulus: "Dalam artikel bertema 'Manfaat Sarapan Pagi bagi Konsentrasi Siswa', penulis menyajikan data nilai rata-rata siswa yang sarapan dibandingkan yang tidak sarapan, lalu menyimpulkan pentingnya sarapan bergizi.",
+    q: "13. Hubungan antara data dan simpulan penulis dalam artikel tersebut menunjukkan sifat...",
+    opts: [
+      "Objektif dan logis berdasarkan bukti",
+      "Fiktif dan imajinatif",
+      "Subjektif tanpa alasan",
+      "Persuasif untuk menjual produk sereal"
+    ],
+    ans: 0,
+    exp: "Simpulan ditarik secara logis dari perbandingan data nyata sehingga bersifat objektif."
+  },
+  {
+    stimulus: "Kutipan: 'Ekosistem laut terganggu ketika sampah plastik terurai menjadi partikel kecil bernama mikroplastik yang tertelan oleh plankton dan ikan.'",
+    q: "14. Informasi utama yang dapat disimpulkan dari kutipan tersebut adalah...",
+    opts: [
+      "Ikan laut menyukai rasa sampah plastik",
+      "Sampah plastik di laut berubah menjadi mikroplastik yang masuk ke rantai makanan laut",
+      "Plankton mampu menghancurkan seluruh sampah plastik di samudra",
+      "Ekosistem laut tidak terpengaruh oleh aktivitas manusia"
+    ],
+    ans: 1,
+    exp: "Kutipan menjelaskan proses terurainya plastik menjadi mikroplastik yang kemudian tertelan organisme laut."
+  },
+  {
+    stimulus: "Seorang siswa diminta menulis artikel ilmiah populer bertema 'Manfaat Olahraga Jalan Kaki 30 Menit Setiap Hari'.",
+    q: "15. Langkah pertama yang paling tepat dilakukan siswa agar tulisannya dapat dipertanggungjawabkan adalah...",
+    opts: [
+      "Mengarang angka statistik agar pembaca terkesan",
+      "Mengumpulkan fakta dan hasil penelitian kesehatan dari sumber terpercaya sebelum menyusun kerangka",
+      "Menyalin seluruh artikel orang lain tanpa menyebutkan sumbernya",
+      "Hanya menuliskan pengalaman pribadi tanpa data pendukung"
+    ],
+    ans: 1,
+    exp: "Artikel ilmiah populer harus diawali dengan riset sumber terpercaya agar isinya akurat, objektif, dan amanah."
+  }
+];
+
+let currentQuizIdx = 0;
+let quizAnswers = new Array(QUIZ_QUESTIONS.length).fill(null);
+
+function renderQuiz() {
+  const container = document.getElementById('quizContainer');
+  const prog = document.getElementById('quizProgress');
+
+  if (currentQuizIdx >= QUIZ_QUESTIONS.length) {
+    let benar = 0;
+    QUIZ_QUESTIONS.forEach((q, i) => { if (quizAnswers[i] === q.ans) benar++; });
+    const nilai = Math.round((benar / QUIZ_QUESTIONS.length) * 100);
+    studentState.quizScore = nilai;
+    prog.style.width = "100%";
+
+    const predikat = getPredikat(nilai);
+    const tuntas = nilai >= config.kktp;
+
+    container.innerHTML = `
+      <div style="text-align:center; padding:20px; background:#eff6ff; border-radius:14px; margin-bottom:18px;">
+        <h3>🎓 Hasil Ujian Lisensi Detektif</h3>
+        <div style="font-size:2.4rem; font-weight:800; color:var(--primary); margin:8px 0;">${nilai}</div>
+        <p>Benar <strong>${benar}</strong> dari <strong>${QUIZ_QUESTIONS.length}</strong> soal | Predikat: <strong>${predikat}</strong></p>
+        <p style="margin-top:6px; font-weight:700; color:${tuntas ? 'var(--success)' : 'var(--danger)'};">
+          ${tuntas ? '✅ TUNTAS (Melampaui KKTP ' + config.kktp + ')' : '⚠️ BELUM TUNTAS (KKTP ' + config.kktp + ')'}
+        </p>
+        <div style="margin-top:14px; display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="resetQuiz()">🔄 Ulangi Kuis</button>
+          <button class="btn btn-accent" onclick="showScreen('screenRefleksi')">Lanjut ke Refleksi →</button>
+        </div>
+      </div>
+      <h4 style="margin-bottom:10px;">📖 Kunci Jawaban & Pembahasan Lengkap:</h4>
+      ${QUIZ_QUESTIONS.map((item, idx) => {
+        const isCorrect = quizAnswers[idx] === item.ans;
+        return `
+          <div style="padding:12px; border-radius:10px; margin-bottom:10px; background:${isCorrect ? '#f0fdf4' : '#fef2f2'}; border:1px solid ${isCorrect ? '#86efac' : '#fecaca'};">
+            <strong>Soal ${idx + 1}:</strong> ${isCorrect ? '✅ Benar' : '❌ Salah'}<br/>
+            <span style="font-size:0.9rem;">Jawaban Kamu: <strong>${item.opts[quizAnswers[idx]] || '-'}</strong></span><br/>
+            <span style="font-size:0.9rem; color:var(--success);">Kunci: <strong>${item.opts[item.ans]}</strong></span><br/>
+            <em style="font-size:0.86rem; color:var(--muted);">Pembahasan: ${item.exp}</em>
+          </div>
+        `;
+      }).join('')}
+    `;
+    return;
+  }
+
+  const item = QUIZ_QUESTIONS[currentQuizIdx];
+  prog.style.width = `${(currentQuizIdx / QUIZ_QUESTIONS.length) * 100}%`;
+  const letters = ["A", "B", "C", "D"];
+
+  container.innerHTML = `
+    <div style="font-weight:700; color:var(--accent); margin-bottom:8px;">Soal ${currentQuizIdx + 1} dari ${QUIZ_QUESTIONS.length}</div>
+    <div class="example-box" style="margin-bottom:14px;">
+      <strong>Stimulus Bacaan:</strong><br/>${item.stimulus}
+    </div>
+    <p style="font-weight:700; font-size:1.05rem; margin-bottom:12px;">${item.q}</p>
+    <div id="quizOptions">
+      ${item.opts.map((opt, idx) => `
+        <button class="option-btn" onclick="selectQuizOption(${idx}, this)">
+          <strong>${letters[idx]}.</strong> ${opt}
+        </button>
+      `).join('')}
+    </div>
+    <div id="quizInstantFb" style="margin-top:10px; font-weight:600;"></div>
+    <div style="margin-top:14px; text-align:right;">
+      <button class="btn btn-primary" id="btnNextQuiz" style="display:none;" onclick="nextQuizQuestion()">
+        ${currentQuizIdx === QUIZ_QUESTIONS.length - 1 ? 'Lihat Nilai Akhir 🏁' : 'Soal Berikutnya →'}
+      </button>
+    </div>
+  `;
+}
+
+function selectQuizOption(idx, btn) {
+  if (quizAnswers[currentQuizIdx] !== null) return; // Kunci pilihan setelah dijawab
+  quizAnswers[currentQuizIdx] = idx;
+  const item = QUIZ_QUESTIONS[currentQuizIdx];
+  const allBtns = document.querySelectorAll('#quizOptions .option-btn');
+  allBtns.forEach((b, i) => {
+    if (i === item.ans) b.classList.add('correct');
+    else if (i === idx) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('quizInstantFb');
+  if (idx === item.ans) {
+    fb.style.color = "var(--success)";
+    fb.innerHTML = `✅ Jawaban Tepat! ${item.exp}`;
+  } else {
+    fb.style.color = "var(--danger)";
+    fb.innerHTML = `❌ Kurang Tepat. ${item.exp}`;
+  }
+  document.getElementById('btnNextQuiz').style.display = 'inline-flex';
+}
+
+function nextQuizQuestion() {
+  currentQuizIdx++;
+  renderQuiz();
+}
+
+function resetQuiz() {
+  currentQuizIdx = 0;
+  quizAnswers = new Array(QUIZ_QUESTIONS.length).fill(null);
+  renderQuiz();
+}
+
+/* ==========================================================================
+   6. REFLEKSI, PREDIKAT & PENGIRIMAN KE GOOGLE SPREADSHEET
+   ========================================================================== */
+function getPredikat(nilai) {
+  if (nilai >= 90) return "A (Sangat Baik - Detektif Utama)";
+  if (nilai >= 80) return "B (Baik - Detektif Madya)";
+  if (nilai >= config.kktp) return "C (Cukup - Detektif Muda)";
+  return "D (Perlu Bimbingan)";
+}
+
+function saveReflectionAndGoReport() {
+  studentState.refleksi = [
+    document.getElementById('ref1').value.trim(),
+    document.getElementById('ref2').value.trim(),
+    document.getElementById('ref3').value.trim(),
+    document.getElementById('ref4').value.trim(),
+    document.getElementById('ref5').value.trim()
+  ];
+  if (studentState.refleksi.some(r => !r)) {
+    alert("Mohon lengkapi kelima pertanyaan refleksi terlebih dahulu!");
+    return;
+  }
+  openHasilScreen();
+}
+
+function openHasilScreen() {
+  const now = new Date().toLocaleString('id-ID', { dateStyle: 'full', timeStyle: 'short' });
+  const nilai = studentState.quizScore;
+  const predikat = getPredikat(nilai);
+  const status = nilai >= config.kktp ? "TUNTAS" : "BELUM TUNTAS";
+
+  document.getElementById('resNama').textContent = studentState.nama || "(Belum diisi)";
+  document.getElementById('resKelas').textContent = studentState.kelas || "(Belum diisi)";
+  document.getElementById('resTanggal').textContent = now;
+  document.getElementById('resG1').textContent = studentState.scores.g1;
+  document.getElementById('resG2').textContent = studentState.scores.g2;
+  document.getElementById('resG3').textContent = studentState.scores.g3;
+  document.getElementById('resG4').textContent = studentState.scores.g4;
+  document.getElementById('resG5').textContent = studentState.scores.g5;
+  document.getElementById('resKuis').textContent = nilai;
+  document.getElementById('resPredikat').textContent = predikat;
+  document.getElementById('resStatus').textContent = status;
+  document.getElementById('resRefleksi').textContent = studentState.refleksi.map((r, i) => `(${i+1}) ${r}`).join(" | ");
+
+  showScreen('screenHasil');
+}
+
+async function submitToSpreadsheet() {
+  const statusBox = document.getElementById('sendStatusBox');
+  if (!studentState.nama || !studentState.kelas) {
+    alert("Nama dan kelas siswa wajib diisi di halaman awal!");
+    return;
+  }
+  if (!config.gasUrl) {
+    statusBox.style.color = "var(--danger)";
+    statusBox.textContent = "⚠️ URL Google Apps Script belum diatur oleh guru. Buka 'Pengaturan Guru' untuk menempelkan URL Web App.";
+    return;
+  }
+
+  const btn = document.getElementById('btnKirimGuru');
+  btn.disabled = true;
+  btn.textContent = "⏳ Mengirim data...";
+
+  const payload = {
+    tanggal: new Date().toLocaleString('id-ID'),
+    nama: studentState.nama,
+    kelas: studentState.kelas,
+    g1: studentState.scores.g1,
+    g2: studentState.scores.g2,
+    g3: studentState.scores.g3,
+    g4: studentState.scores.g4,
+    g5: studentState.scores.g5,
+    kuis: studentState.quizScore,
+    predikat: getPredikat(studentState.quizScore),
+    ketuntasan: studentState.quizScore >= config.kktp ? "TUNTAS" : "BELUM TUNTAS",
+    refleksi: studentState.refleksi.map((r, i) => `${i+1}. ${r}`).join("\n")
+  };
+
+  try {
+    await fetch(config.gasUrl, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    statusBox.style.color = "var(--success)";
+    statusBox.textContent = "✅ Berhasil! Hasil belajar kamu telah terkirim ke Google Spreadsheet Guru.";
+    btn.textContent = "✔️ Terkirim";
+  } catch (err) {
+    statusBox.style.color = "var(--danger)";
+    statusBox.textContent = "❌ Terjadi gangguan jaringan saat mengirim data. Silakan coba lagi.";
+    btn.disabled = false;
+    btn.textContent = "📤 KIRIM HASIL KE GURU";
+  }
+}
+
+/* INISIALISASI */
+applyConfigToUI();
+renderLabTasks();
+openGame(1);
+renderQuiz();
+</script>
+</body>
+</html>
